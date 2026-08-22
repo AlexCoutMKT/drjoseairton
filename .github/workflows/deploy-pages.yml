@@ -1,0 +1,84 @@
+name: Publicar no GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  bootstrap-assets:
+    runs-on: ubuntu-latest
+    outputs:
+      commit_sha: ${{ steps.commit.outputs.commit_sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Recuperar imagens originais
+        run: |
+          mkdir -p public/images
+          files=(
+            dr-jose-airton-retrato.png
+            dr-jose-airton-ultrassom.png
+            sobre-dr-airton-ultrassom-2026.png
+            sobre-dr-airton-palestra.png
+            sobre-dr-airton-historia.png
+            sobre-dr-airton-com-casal-2026.png
+            liferty-01-recepcao.png
+            liferty-02-fachada.png
+            liferty-03-consultorio.png
+            liferty-04-apoio.png
+            liferty-05-sala-exame.png
+            tecnologia-8d-01.png
+            tecnologia-8d-02.png
+            tecnologia-8d-03.png
+            tecnologia-8d-04.png
+          )
+          for file in "${files[@]}"; do
+            if [ ! -f "public/images/$file" ]; then
+              curl --fail --location --retry 3 "https://www.drjoseairton.com.br/images/$file" -o "public/images/$file" || curl --fail --location --retry 3 "https://dr-jose-airton.alecoutz.chatgpt.site/images/$file" -o "public/images/$file"
+            fi
+          done
+      - id: commit
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if ! git diff --quiet; then
+            git add public/images
+            git commit -m "Adiciona imagens do site"
+            git push
+          fi
+          echo "commit_sha=$(git rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+  build:
+    runs-on: ubuntu-latest
+    needs: bootstrap-assets
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ needs.bootstrap-assets.outputs.commit_sha }}
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npm run build
+      - run: cp CNAME out/CNAME
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
