@@ -50,7 +50,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          if ! git diff --quiet; then
+          if [ -n "$(git status --porcelain)" ]; then
             git add public/images
             git commit -m "Adiciona imagens do site"
             git push
