@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 const whatsapp = "https://wa.me/5513997867273";
 const instagram = "https://www.instagram.com/ze_airton?igsh=ZzJ6YnlzcTA3cWpj";
 const maps = "https://www.google.com/maps/search/?api=1&query=Alameda+Arm%C3%AAnio+Mendes%2C+66%2C+Santos%2C+SP";
+const imagePath = (src: string) => `${process.env.NEXT_PUBLIC_BASE_PATH ?? ""}${src}`;
 
 const specialties = [
   ["care", "Medicina Fetal", "Avaliação especializada da gestação, inclusive em situações de alto risco, em integração com o obstetra."],
@@ -28,25 +29,25 @@ const faq = [
 ];
 
 const technologyImages = [
-  ["/images/tecnologia-8d-01.png", "Imagem tridimensional de ultrassonografia fetal"],
-  ["/images/tecnologia-8d-02.png", "Imagem 8D do rosto do bebê gerada a partir do ultrassom"],
-  ["/images/tecnologia-8d-03.png", "Visualização aprimorada do bebê a partir da imagem de ultrassom"],
-  ["/images/tecnologia-8d-04.png", "Imagem detalhada do bebê gerada com tecnologia de visualização 8D"],
+  [imagePath("/images/tecnologia-8d-01.png"), "Imagem tridimensional de ultrassonografia fetal"],
+  [imagePath("/images/tecnologia-8d-02.png"), "Imagem 8D do rosto do bebê gerada a partir do ultrassom"],
+  [imagePath("/images/tecnologia-8d-03.png"), "Visualização aprimorada do bebê a partir da imagem de ultrassom"],
+  [imagePath("/images/tecnologia-8d-04.png"), "Imagem detalhada do bebê gerada com tecnologia de visualização 8D"],
 ];
 
 const clinicImages = [
-  ["/images/liferty-01-recepcao.png", "Recepção do Edifício Praiamar Corporate"],
-  ["/images/liferty-02-fachada.png", "Fachada do Edifício Praiamar Corporate em Santos"],
-  ["/images/liferty-03-consultorio.png", "Consultório da Clínica Liferty com vista para Santos"],
-  ["/images/liferty-04-apoio.png", "Ambiente de apoio da Clínica Liferty"],
-  ["/images/liferty-05-sala-exame.png", "Sala de atendimento da Clínica Liferty"],
+  [imagePath("/images/liferty-01-recepcao.png"), "Recepção do Edifício Praiamar Corporate"],
+  [imagePath("/images/liferty-02-fachada.png"), "Fachada do Edifício Praiamar Corporate em Santos"],
+  [imagePath("/images/liferty-03-consultorio.png"), "Consultório da Clínica Liferty com vista para Santos"],
+  [imagePath("/images/liferty-04-apoio.png"), "Ambiente de apoio da Clínica Liferty"],
+  [imagePath("/images/liferty-05-sala-exame.png"), "Sala de atendimento da Clínica Liferty"],
 ];
 
 const aboutImages = [
-  ["/images/sobre-dr-airton-ultrassom-2026.png", "Dr. José Airton operando o equipamento de ultrassonografia em ambiente clínico"],
-  ["/images/sobre-dr-airton-palestra.png", "Dr. José Airton durante palestra médica, diante das bandeiras de São Paulo e do Brasil"],
-  ["/images/sobre-dr-airton-historia.png", "Dr. José Airton ao lado de um casal durante atendimento em sua trajetória profissional"],
-  ["/images/sobre-dr-airton-com-casal-2026.png", "Dr. José Airton ao lado de um casal após o atendimento"],
+  [imagePath("/images/sobre-dr-airton-ultrassom-2026.png"), "Dr. José Airton operando o equipamento de ultrassonografia em ambiente clínico"],
+  [imagePath("/images/sobre-dr-airton-palestra.png"), "Dr. José Airton durante palestra médica, diante das bandeiras de São Paulo e do Brasil"],
+  [imagePath("/images/sobre-dr-airton-historia.png"), "Dr. José Airton ao lado de um casal durante atendimento em sua trajetória profissional"],
+  [imagePath("/images/sobre-dr-airton-com-casal-2026.png"), "Dr. José Airton ao lado de um casal após o atendimento"],
 ];
 
 function Icon({ name }: { name: string }) {
@@ -244,7 +245,7 @@ function Home() {
           <p><strong>Consultas e exames realizados pessoalmente pelo Dr. José Airton</strong>, em atendimento particular na Clínica Liferty.</p>
           <div className="hero-actions"><a className="button gold" href={whatsapp} target="_blank" rel="noreferrer">Agendar Consulta</a></div>
         </div>
-        <div className="hero-photo"><Image src="/images/dr-jose-airton-retrato.png" alt="Retrato profissional do Dr. José Airton em ambiente de ultrassonografia" fill priority sizes="(max-width: 800px) 100vw, 48vw"/></div>
+        <div className="hero-photo"><Image src={imagePath("/images/dr-jose-airton-retrato.png")} alt="Retrato profissional do Dr. José Airton em ambiente de ultrassonografia" fill priority sizes="(max-width: 800px) 100vw, 48vw"/></div>
         <div className="hero-proof" aria-label="Experiência profissional"><div><strong>25+</strong><span>anos de experiência</span></div><div><strong>200.000+</strong><span>atendimentos</span></div><div><strong>2001</strong><span>início da trajetória</span></div><div><strong>Santos</strong><span>SP</span></div></div>
       </section>
 
